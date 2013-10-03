@@ -3,12 +3,6 @@
 open PInvoke.Methods
 open PInvoke.Types
 
-let RaiseWin32Err a =    
-    let win32Err = System.Runtime.InteropServices.Marshal.GetLastWin32Error()    
-    if win32Err <> 0 then            
-        raise (System.ComponentModel.Win32Exception win32Err)
-    else
-        a
 
 type LowLevelMouseHook(handler) as this =
     let proc = LowLevelMouseProc(fun nCode wParam lParam ->

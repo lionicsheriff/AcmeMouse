@@ -3,6 +3,12 @@ open PInvoke.Types
 
 open System.Runtime.InteropServices
 
+let RaiseWin32Err a =    
+    let win32Err = System.Runtime.InteropServices.Marshal.GetLastWin32Error()    
+    if win32Err <> 0 then            
+        raise (System.ComponentModel.Win32Exception win32Err)
+    else
+        a
 
 type LowLevelMouseProc =
     delegate of int * WM * byref<MSLLHOOKSTRUCT> -> LRESULT
