@@ -18,6 +18,8 @@ type WM =
     | LBUTTONUP = 0x0202u
     | RBUTTONDOWN = 0x0204u
     | RBUTTONUP = 0x0205u
+    | MBUTTONDOWN = 0x207u
+    | MBUTTONUP = 0x208u
 
 type KEYEVENTF =
     | NONE = 0x0000
