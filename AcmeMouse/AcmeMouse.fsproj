@@ -81,6 +81,7 @@
     <Compile Include="MouseHook.fs" />
     <Compile Include="Config.fs" />
     <Compile Include="KeyParser.fs" />
+    <Compile Include="MouseChord.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />

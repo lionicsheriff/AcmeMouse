@@ -2,6 +2,7 @@
 // See the 'F# Tutorial' project for more help.
 
 open MouseHandler
+open MouseChord
 
 open PInvoke.Types
 
@@ -30,13 +31,17 @@ let main argv =
     )
     mouseEvent.Publish.Subscribe(fun (str: string) -> System.Console.WriteLine str) |> ignore
 
+    let chorder = new ChordedMouseHook()
 
+
+    (*
     use noRight = new LowLevelMouseHook(fun nCode wParam lParam ->
         if wParam = WM.RBUTTONDOWN || wParam = WM.RBUTTONUP then
             false
         else
             true
     )
+    *)
     printfn "hooked"
 
     System.Windows.Forms.Application.Run()

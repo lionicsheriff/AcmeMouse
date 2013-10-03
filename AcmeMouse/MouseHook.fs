@@ -3,8 +3,6 @@
 open PInvoke.Methods
 open PInvoke.Types
 
-let ChordMap = [([1,2],[VK.CONTROL,VK.C])]
-
 let RaiseWin32Err a =    
     let win32Err = System.Runtime.InteropServices.Marshal.GetLastWin32Error()    
     if win32Err <> 0 then            
@@ -34,10 +32,10 @@ type LowLevelMouseHook(handler) as this =
             |> ignore
 
 
-type ChordedMouseHook() = 
-    inherit LowLevelMouseHook(fun nCode wParam lParam ->
-        true
-    )
+
+
+
+
 
 type MouseObservable() =
     let mouseEvent = new Event<WM>()
