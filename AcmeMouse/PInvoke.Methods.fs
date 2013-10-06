@@ -98,15 +98,6 @@ extern int GetWindowText(HWND hWnd, [<Out>]System.Text.StringBuilder lpString, i
  
  [<DllImport("user32.dll", SetLastError = true)>]
  extern HWND ChildWindowFromPoint(HWND hWndParent, POINT Point)
- 
- [<DllImport("user32.dll", SetLastError = true)>]
- extern bool SetSystemCursor(HCUR hcur, OCR id) 
- 
- [<DllImport("user32.dll", SetLastError = true)>]
- extern HCUR LoadCursor(HINSTANCE hinstance, IDC cursorName) 
- 
- [<DllImport("user32.dll", SetLastError = true)>]
- extern HCUR GetCursor()
- 
+  
  [<DllImport("user32.dll", SetLastError = true)>]
  extern void keybd_event(VK bVk, uint32 bScan, KEYEVENTF dwFlags, nativeint dwExtraInfo)

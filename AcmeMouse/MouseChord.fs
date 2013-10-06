@@ -25,15 +25,10 @@ type ChordedMouseHook()=
                     cancellationSource <- new System.Threading.CancellationTokenSource()
                     let chord = currentChord
                     let action = async {                                            
-                        do! Async.Sleep 200              
-                        //let loading = LoadCursor(0n, IDC.WAIT) |> RaiseWin32Err
-                        //SetSystemCursor(loading, OCR.WAIT) |> RaiseWin32Err   
+                        do! Async.Sleep 200
                         System.Console.WriteLine "executing"
                         SendKeys ChordMap.[chord] lParam.pt |> ignore
-                        currentChord <- List.empty
-                        //do! Async.Sleep 100                              
-                        //let normal = LoadCursor(0n, IDC.ARROW) |> RaiseWin32Err
-                        //SetSystemCursor(normal, OCR.NORMAL) |> RaiseWin32Err     
+                        currentChord <- List.empty     
                     }
 
                     Async.Start(action,cancellationToken=cancellationSource.Token)
