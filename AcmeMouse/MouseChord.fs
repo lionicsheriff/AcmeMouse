@@ -1,38 +1,59 @@
 ﻿module MouseChord
 
 open MouseHandler
+open SendKeys
 open PInvoke.Types
 
-let ChordMap = Map.ofList [([WM.LBUTTONDOWN;WM.MBUTTONDOWN],[VK.CONTROL;VK.X]);
+open PInvoke.Methods
+open System.Runtime.InteropServices
+
+let ChordMap = Map.ofList [([WM.LBUTTONDOWN;WM.MBUTTONDOWN],[VK.CONTROL; VK.X]);
                            ([WM.LBUTTONDOWN;WM.MBUTTONDOWN;WM.RBUTTONDOWN],[VK.CONTROL;VK.C]);
-                           ([WM.LBUTTONDOWN;WM.RBUTTONDOWN],[VK.CONTROL;VK.V]) ]
+                           ([WM.LBUTTONDOWN;WM.RBUTTONDOWN],[VK.CONTROL;VK.V]);
+                           ([WM.LBUTTONDOWN;WM.RBUTTONDOWN; WM.MBUTTONDOWN],[]);
+                           ]
 type ChordedMouseHook()= 
     let mutable currentChord = List.Empty
-    let hook = new LowLevelMouseHook(fun nCode wParam lParam ->
+    let mutable cancellationSource = new System.Threading.CancellationTokenSource()
+    let hook = new LowLevelMouseHook(fun nCode wParam lParam ->        
         match wParam with
-            | WM.LBUTTONDOWN | WM.MBUTTONDOWN | WM.RBUTTONDOWN ->
+            | WM.LBUTTONDOWN | WM.MBUTTONDOWN | WM.RBUTTONDOWN ->                
                 currentChord <-  (currentChord @ [wParam])
                 System.Console.WriteLine currentChord
-                if wParam <> currentChord.Head then
+                if ChordMap.ContainsKey currentChord then
+                    cancellationSource.Cancel() // cancel the previous chord (if any) to allow transition into more complex chords
+                    cancellationSource <- new System.Threading.CancellationTokenSource()
+                    let chord = currentChord
+                    let action = async {                                            
+                        do! Async.Sleep 200              
+                        //let loading = LoadCursor(0n, IDC.WAIT) |> RaiseWin32Err
+                        //SetSystemCursor(loading, OCR.WAIT) |> RaiseWin32Err   
+                        System.Console.WriteLine "executing"
+                        SendKeys ChordMap.[chord] lParam.pt |> ignore
+                        currentChord <- List.empty
+                        //do! Async.Sleep 100                              
+                        //let normal = LoadCursor(0n, IDC.ARROW) |> RaiseWin32Err
+                        //SetSystemCursor(normal, OCR.NORMAL) |> RaiseWin32Err     
+                    }
+
+                    Async.Start(action,cancellationToken=cancellationSource.Token)
+                    System.Console.WriteLine (sprintf "blocking %A" wParam)
+                    false
+                else if currentChord.Length > 1  then                    
                     // we are in a chord, so block the mouse event from reaching the application
                     // this was primarily to stop the scrolling behavior for the middle button,
                     // but probably is relevant for any button
                     false
-                else
+                else                    
                     true
 
             | WM.LBUTTONUP | WM.MBUTTONUP | WM.RBUTTONUP ->
-                if wParam = WM.RBUTTONUP && currentChord.IsEmpty then
+                if wParam = WM.RBUTTONUP && (currentChord.Length <> 1) then
                     // Swallow the right mouse button if we just performed a chord so the context menu
                     // doesn't show afterwards. This condition works because a normal click is a chord of one,
-                    // so the only time we have a button up and an empty chord is after a successful match (it
-                    // clears the chord)
+                    // so anything else should be in a chord
                     // We don't want to swallow left mouse button up though as the app probably won't release
                     // highlight mode. Who knows about the middle mouse button...
-                    false
-                else if ChordMap.ContainsKey currentChord then
-                    System.Console.WriteLine ChordMap.[currentChord]
-                    currentChord <- List.empty
                     false
                 else
                     // reset the chord
