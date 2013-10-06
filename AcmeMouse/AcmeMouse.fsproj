@@ -18,6 +18,7 @@
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <ApplicationIcon>..\..\..\..\Downloads\1381066945_59059.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +59,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
@@ -77,19 +79,25 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="PInvoke.Types.fs" />
     <Compile Include="PInvoke.Types.Input.fs" />
     <Compile Include="PInvoke.Methods.fs" />
     <Compile Include="Action.SendKeys.fs" />
     <Compile Include="MouseHook.fs" />
-    <Compile Include="Config.fs" />
-    <Compile Include="KeyParser.fs" />
     <Compile Include="MouseChord.fs" />
+    <Compile Include="KeyParser.fs" />
+    <Compile Include="Config.fs" />
+    <Compile Include="TrayIcon.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="App.config" />
+    <None Include="THANKS" />
+    <None Include="LICENSE" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
