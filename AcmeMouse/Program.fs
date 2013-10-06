@@ -19,7 +19,7 @@ let main argv =
     )
     mouseEvent.Publish.Subscribe(fun (str: string) -> System.Console.WriteLine str) |> ignore
 *)
-    //let chorder = new ChordedMouseHook()
+    let chorder = new ChordedMouseHook()
     printfn "hooked"
 
     use context = new TrayContext()
