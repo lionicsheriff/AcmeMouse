@@ -18,7 +18,7 @@ type LowLevelMouseProc =
 
 type HOOKPROC = LowLevelMouseProc
 
-[<DllImport("kernel32.dll")>]
+[<DllImport("kernel32.dll", SetLastError = true)>]
 extern uint32 GetCurrentThreadId()
 
 [<DllImport("kernel32.dll", SetLastError = true)>]
@@ -48,6 +48,65 @@ extern DWORD GetLastError()
 [<DllImport("user32.dll", SetLastError = true)>]
 extern WORD MapVirtualKey(VK uCode, uint32 uMapType)
 
+[<DllImport("user32.dll", SetLastError = true)>]
+extern bool SetForegroundWindow(HWND hwnd)
 
-[<DllImport("user32.dll")>]
+[<DllImport("user32.dll", SetLastError = true)>]
 extern LRESULT CallNextHookEx(HHOOK hhk, int nCode, WPARAM wParam, [<In>]LPARAM& lParam)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern HWND GetFocus()
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern bool AttachThreadInput(DWORD idAttach, DWORD idAttachTo, bool fAttach)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern DWORD GetWindowThreadProcessId(HWND hwnd, [<Out>] DWORD& lpdwProcessId)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern bool SendMessage(HWND hwnd, UINT msg, VK wParam, int lParam)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern bool PostMessage(HWND hwnd, UINT msg, VK wParam, int lParam)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern HWND FindWindow(string lpClassName, string lpWindowName)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern HWND WindowFromPoint(POINT point)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern HWND WindowFromPhysicalPoint(POINT point)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern HWND GetTopWindow(HWND hwnd)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern HWND GetForegroundWindow()
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern UINT GetWindowModuleFileName(HWND hwnd, [<Out>]System.Text.StringBuilder lpszFileName, UINT cchFileNameMax)
+
+[<DllImport("user32.dll", SetLastError = true)>]
+extern int GetWindowText(HWND hWnd, [<Out>]System.Text.StringBuilder lpString, int nMaxCount)
+
+ [<DllImport("user32.dll", SetLastError = true)>]
+ extern int GetWindowTextLength(HWND hWnd)
+ 
+ [<DllImport("user32.dll", SetLastError = true)>]
+ extern bool LockSetForegroundWindow(UINT uLockCode)
+ 
+ [<DllImport("user32.dll", SetLastError = true)>]
+ extern HWND ChildWindowFromPoint(HWND hWndParent, POINT Point)
+ 
+ [<DllImport("user32.dll", SetLastError = true)>]
+ extern bool SetSystemCursor(HCUR hcur, OCR id) 
+ 
+ [<DllImport("user32.dll", SetLastError = true)>]
+ extern HCUR LoadCursor(HINSTANCE hinstance, IDC cursorName) 
+ 
+ [<DllImport("user32.dll", SetLastError = true)>]
+ extern HCUR GetCursor()
+ 
+ [<DllImport("user32.dll", SetLastError = true)>]
+ extern void keybd_event(VK bVk, uint32 bScan, KEYEVENTF dwFlags, nativeint dwExtraInfo)
