@@ -1,7 +1,7 @@
 ﻿module MouseHandler
 
-open PInvoke.Methods
-open PInvoke.Types
+open WinApi.Methods
+open WinApi.Types
 
 
 type LowLevelMouseHook(handler) as this =

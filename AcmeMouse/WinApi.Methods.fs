@@ -1,5 +1,5 @@
-﻿module PInvoke.Methods
-open PInvoke.Types
+﻿module WinApi.Methods
+open WinApi.Types
 
 open System.Runtime.InteropServices
 

@@ -2,9 +2,8 @@
 
 open MouseHandler
 open SendKeys
-open PInvoke.Types
-
-open PInvoke.Methods
+open WinApi.Types
+open WinApi.Methods
 open System.Runtime.InteropServices
 
 let ChordMap = Map.ofList [([WM.LBUTTONDOWN;WM.MBUTTONDOWN],[VK.CONTROL; VK.X]);

@@ -1,7 +1,7 @@
 ﻿module SendKeys
 
-open PInvoke.Methods
-open PInvoke.Types
+open WinApi.Methods
+open WinApi.Types
 
 open System.Runtime.InteropServices
 
