@@ -1,7 +1,7 @@
 ﻿module MouseChord
 
 open MouseHandler
-open SendKeys
+open Actions
 open WinApi.Types
 open WinApi.Methods
 open System.Runtime.InteropServices

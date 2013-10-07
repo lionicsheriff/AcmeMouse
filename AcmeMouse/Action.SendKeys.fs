@@ -1,4 +1,4 @@
-﻿module SendKeys
+﻿module Actions
 
 open WinApi.Methods
 open WinApi.Types
