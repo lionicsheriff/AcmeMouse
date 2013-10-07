@@ -19,6 +19,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <ApplicationIcon>..\..\..\..\Downloads\1381066945_59059.ico</ApplicationIcon>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +43,38 @@
     <DocumentationFile>bin\Release\AcmeMouse.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <ItemGroup>
+    <Compile Include="PInvoke.Types.fs" />
+    <Compile Include="PInvoke.Types.Input.fs" />
+    <Compile Include="PInvoke.Methods.fs" />
+    <Compile Include="Action.SendKeys.fs" />
+    <Compile Include="MouseHook.fs" />
+    <Compile Include="MouseChord.fs" />
+    <Compile Include="KeyParser.fs" />
+    <Compile Include="Config.fs" />
+    <Compile Include="TrayIcon.fs" />
+    <Compile Include="Program.fs" />
+    <None Include="App.config" />
+    <None Include="THANKS" />
+    <None Include="LICENSE" />
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Resources.resx" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="FParsec">
       <HintPath>..\packages\FParsec.1.0.1\lib\net40-client\FParsec.dll</HintPath>
@@ -79,41 +112,14 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Compile Include="PInvoke.Types.fs" />
-    <Compile Include="PInvoke.Types.Input.fs" />
-    <Compile Include="PInvoke.Methods.fs" />
-    <Compile Include="Action.SendKeys.fs" />
-    <Compile Include="MouseHook.fs" />
-    <Compile Include="MouseChord.fs" />
-    <Compile Include="KeyParser.fs" />
-    <Compile Include="Config.fs" />
-    <Compile Include="TrayIcon.fs" />
-    <Compile Include="Program.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="THANKS" />
-    <None Include="LICENSE" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources.resx" />
   </ItemGroup>
   <PropertyGroup>
-    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+  if exist "$(SolutionDir)ILMerge\ILMerge.exe" (
+    "$(SolutionDir)ILMerge\ILMerge.exe" /out:"$(TargetDir)$(TargetName).all.exe" "$(TargetDir)$(TargetName).exe" "$(TargetDir)*.dll" /target:exe /targetplatform:v4,C:\Windows\Microsoft.NET\Framework64\v4.0.30319 /wildcards /target:winexe
+  )
+)</PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <BaseAddress>4194304</BaseAddress>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <FileAlignment>4096</FileAlignment>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
