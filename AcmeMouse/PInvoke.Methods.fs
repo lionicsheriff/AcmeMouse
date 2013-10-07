@@ -46,7 +46,7 @@ extern ULONG_PTR GetMessageExtraInfo()
 extern DWORD GetLastError()
 
 [<DllImport("user32.dll", SetLastError = true)>]
-extern WORD MapVirtualKey(VK uCode, uint32 uMapType)
+extern uint32 MapVirtualKey(VK uCode, uint32 uMapType)
 
 [<DllImport("user32.dll", SetLastError = true)>]
 extern bool SetForegroundWindow(HWND hwnd)

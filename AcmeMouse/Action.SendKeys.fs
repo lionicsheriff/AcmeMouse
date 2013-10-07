@@ -13,10 +13,10 @@ let SendKeys (keys: List<VK>) pos =
     
         // Send the keys
         for key in keys do        
-            keybd_event(key, 0u, KEYEVENTF.NONE, 0n)
+            keybd_event(key, MapVirtualKey(key, 0u), KEYEVENTF.NONE, 0n)
             
         // and their corresponding key up (don't want to get into ctrl lock...)
         for key in keys do            
-            keybd_event(key, 0u, KEYEVENTF.KEYUP, 0n)
+            keybd_event(key, MapVirtualKey(key, 0u), KEYEVENTF.KEYUP, 0n)
         
         ()
