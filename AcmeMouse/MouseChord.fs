@@ -58,3 +58,6 @@ type ChordedMouseHook()=
             | _ -> true
     )
     member this.Hook = hook
+    interface System.IDisposable with
+        member this.Dispose () =
+            (hook :> System.IDisposable).Dispose ()

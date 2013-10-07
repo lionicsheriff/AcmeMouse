@@ -3,10 +3,7 @@
 
 open MouseHandler
 open MouseChord
-open TrayIcon
-//open PInvoke.Types
-
-let error = System.Runtime.InteropServices.Marshal.GetLastWin32Error()
+open ApplicationContext
 
 [<EntryPoint; System.STAThread>]
 let main argv =                                        
@@ -19,10 +16,9 @@ let main argv =
     )
     mouseEvent.Publish.Subscribe(fun (str: string) -> System.Console.WriteLine str) |> ignore
 *)
-    let chorder = new ChordedMouseHook()
-    printfn "hooked"
+ 
 
-    use context = new TrayContext()
+    use context = new AcmeMouseContext()
 
     System.Windows.Forms.Application.Run(context)
 

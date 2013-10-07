@@ -65,7 +65,7 @@
     <Compile Include="Action.SendKeys.fs" />
     <Compile Include="MouseHook.fs" />
     <Compile Include="MouseChord.fs" />
-    <Compile Include="TrayIcon.fs" />
+    <Compile Include="ApplicationContext.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="THANKS" />

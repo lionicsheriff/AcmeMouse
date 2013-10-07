@@ -20,7 +20,7 @@ type LowLevelMouseHook(handler) as this =
     member this.HookId = hookId
     member this.Handler = proc // need to stop the proc from being garbage collected (the let binding is being put into the constructor)
     interface System.IDisposable with
-        member this.Dispose() =
+        member this.Dispose() =            
             UnhookWindowsHookEx(this.HookId) 
             |> RaiseWin32Err
             |> ignore
