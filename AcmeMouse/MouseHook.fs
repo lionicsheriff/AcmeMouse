@@ -4,7 +4,7 @@ open WinApi.Methods
 open WinApi.Types
 
 
-type LowLevelMouseHook(handler) as this =
+type LowLevelMouseHook(handler) =
     let proc = LowLevelMouseProc(fun nCode wParam lParam ->
         if nCode < 0 then
             // CallNextHook seems to raise error code 6 (handle invalid) This doesn't seem consistent though, so maybe not my code?

@@ -1,4 +1,9 @@
-﻿namespace WinApi.Types
+﻿// turn off FS0009 "Uses of this construct may result in the generation of unverifiable .NET IL code"
+// this is the result of the StructLayout attribute. I have no choice, what with dipping into
+// unmanaged code anyway.
+#nowarn "9"
+
+namespace WinApi.Types
 open System.Runtime.InteropServices
 
 
@@ -418,8 +423,7 @@ type INPUTUNION =
 type INPUT = 
     val ``type``: int
     val input: INPUTUNION
-    new(_type, _input) =
-    {
+    new(_type, _input) = {
         ``type`` = _type
         input = _input
     }
