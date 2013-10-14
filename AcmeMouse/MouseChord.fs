@@ -13,9 +13,16 @@ let ChordMap = Map.ofList [([WM.LBUTTONDOWN;WM.MBUTTONDOWN],[VK.CONTROL; VK.X]);
                            ]
 type ChordedMouseHook()= 
     let mutable currentChord = List.Empty
+    let mutable blockWheel = true
     let mutable cancellationSource = new System.Threading.CancellationTokenSource()
     let hook = new LowLevelMouseHook(fun nCode wParam lParam ->        
         match wParam with
+            | WM.MOUSEWHEEL | WM.MOUSEHWHEEL ->
+                if blockWheel && currentChord.Length > 0 then
+                    false
+                else
+                    true
+
             | WM.LBUTTONDOWN | WM.MBUTTONDOWN | WM.RBUTTONDOWN ->                
                 currentChord <-  (currentChord @ [wParam])
                 System.Console.WriteLine currentChord
@@ -57,6 +64,7 @@ type ChordedMouseHook()=
             | _ -> true
     )
     member this.Hook = hook
+    member this.BlockWheel = blockWheel
     interface System.IDisposable with
         member this.Dispose () =
             (hook :> System.IDisposable).Dispose ()

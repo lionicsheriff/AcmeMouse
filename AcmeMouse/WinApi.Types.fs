@@ -25,6 +25,8 @@ type WM =
     | RBUTTONUP = 0x0205u
     | MBUTTONDOWN = 0x207u
     | MBUTTONUP = 0x208u
+    | MOUSEWHEEL = 0x20Au
+    | MOUSEHWHEEL = 0x20Eu
 
 type KEYEVENTF =
     | NONE = 0x0000
