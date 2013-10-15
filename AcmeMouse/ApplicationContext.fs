@@ -17,16 +17,6 @@ let ShowHelp = fun sender e -> MessageBox.Show(([ "Press the mouse buttons indic
                                                 "AcmeMouse")
                                 |> ignore
 
-
-
-
-
-let menuItemWithConfig text handler config =
-    let item = new MenuItem(text, new System.EventHandler(handler))
-    config item
-    item
-
-
 let menuItem text handler config =
     let item = new MenuItem(text, new System.EventHandler(handler))
     match config with
@@ -35,7 +25,6 @@ let menuItem text handler config =
             item
         | None ->
             item
-
 
 type AcmeMouseContext() =
     inherit ApplicationContext()
