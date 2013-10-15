@@ -17,12 +17,37 @@ let ShowHelp = fun sender e -> MessageBox.Show(([ "Press the mouse buttons indic
                                                 "AcmeMouse")
                                 |> ignore
 
+
+
+
+
+let menuItemWithConfig text handler config =
+    let item = new MenuItem(text, new System.EventHandler(handler))
+    config item
+    item
+
+
+let menuItem text handler config =
+    let item = new MenuItem(text, new System.EventHandler(handler))
+    match config with
+        | Some(config) -> 
+            config item
+            item
+        | None ->
+            item
+
+
 type AcmeMouseContext() =
     inherit ApplicationContext()
     let resources = new ResourceManager("Resources",Assembly.GetExecutingAssembly())
     let components = new System.ComponentModel.Container()
     let trayIcon = new NotifyIcon(components)
     let hook = new ChordedMouseHook()
+    let toggleMouseWheel (sender: obj) e =
+        hook.BlockWheel <- not hook.BlockWheel
+        let menuItem = sender :?> MenuItem
+        menuItem.Checked <- hook.BlockWheel
+        
     let OnExit args =
         trayIcon.Visible <- false
         (hook :> System.IDisposable).Dispose ()
@@ -30,9 +55,11 @@ type AcmeMouseContext() =
         trayIcon.Icon <- resources.GetObject "AppIcon" :?> System.Drawing.Icon
         trayIcon.Text <- "AcmeMouse"
         trayIcon.ContextMenu <- new ContextMenu([|
-            new MenuItem("&Help", new System.EventHandler(ShowHelp));
-            new MenuItem("E&xit", new System.EventHandler(fun sender e -> Application.Exit()));
-            |])
+                                                menuItem "&Help" ShowHelp None;
+                                                menuItem "Block Mouse &Wheel" toggleMouseWheel (Some(fun item -> item.Checked <- hook.BlockWheel));
+                                                menuItem "E&xit" (fun s e -> Application.Exit ()) None;
+                                                |])
+        trayIcon.ContextMenu.MenuItems.[1].Checked <- hook.BlockWheel
         trayIcon.Visible <- true
         System.Console.WriteLine "context created"
         Application.ApplicationExit.Add (OnExit)
