@@ -7,9 +7,9 @@ open MouseChord
 
 
 let menuItem text handler config =
-    let item = new MenuItem(text, new System.EventHandler(handler))
+    let item = new MenuItem(text, new System.EventHandler (handler))
     match config with
-        | Some(config) -> 
+        | Some (config) -> 
             config item
             item
         | None ->

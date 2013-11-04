@@ -11,10 +11,10 @@ let ChordMap = Map.ofList [([WM.LBUTTONDOWN;WM.MBUTTONDOWN],[VK.CONTROL; VK.X]);
                            ([WM.LBUTTONDOWN;WM.RBUTTONDOWN],[VK.CONTROL;VK.V]);
                            ([WM.LBUTTONDOWN;WM.RBUTTONDOWN; WM.MBUTTONDOWN],[]);
                            ]
-type ChordedMouseHook() as this = 
+type ChordedMouseHook () as this = 
     let mutable currentChord = List.Empty
     let mutable blockWheel = true
-    let mutable cancellationSource = new System.Threading.CancellationTokenSource()
+    let mutable cancellationSource = new System.Threading.CancellationTokenSource ()
     let hook = new LowLevelMouseHook(fun nCode wParam lParam ->        
         match wParam with
             | WM.MOUSEWHEEL | WM.MOUSEHWHEEL ->
@@ -27,8 +27,8 @@ type ChordedMouseHook() as this =
                 currentChord <-  (currentChord @ [wParam])
                 System.Console.WriteLine currentChord
                 if ChordMap.ContainsKey currentChord then
-                    cancellationSource.Cancel() // cancel the previous chord (if any) to allow transition into more complex chords
-                    cancellationSource <- new System.Threading.CancellationTokenSource()
+                    cancellationSource.Cancel () // cancel the previous chord (if any) to allow transition into more complex chords
+                    cancellationSource <- new System.Threading.CancellationTokenSource ()
                     let chord = currentChord
                     let action = async {                                            
                         do! Async.Sleep 200

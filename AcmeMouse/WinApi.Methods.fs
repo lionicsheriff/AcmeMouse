@@ -4,8 +4,8 @@ open WinApi.Types
 open System.Runtime.InteropServices
 
 let RaiseWin32Err a =    
-    let win32Err = System.Runtime.InteropServices.Marshal.GetLastWin32Error()    
-    if win32Err <> 0 then            
+    let win32Err = System.Runtime.InteropServices.Marshal.GetLastWin32Error ()    
+    if win32Err <> 0 then
         let err = System.ComponentModel.Win32Exception win32Err
         System.Console.WriteLine (sprintf "!%A: %A" win32Err err.Message)
         a
