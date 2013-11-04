@@ -47,7 +47,6 @@ type AcmeMouseContext() =
                                                 menuItem "Block Mouse &Wheel" toggleMouseWheel (Some(fun item -> item.Checked <- hook.BlockWheel));
                                                 menuItem "E&xit" (fun s e -> Application.Exit ()) None;
                                                 |])
-        trayIcon.ContextMenu.MenuItems.[1].Checked <- hook.BlockWheel
         trayIcon.Visible <- true
         System.Console.WriteLine "context created"
         Application.ApplicationExit.Add (OnExit)
