@@ -16,7 +16,7 @@ type LowLevelMouseHook(handler) =
             else
                 -1n // non-zero stops the event from propagating
         )
-    let hookId = SetWindowsHookEx (14, proc, GetModuleHandle (null), 0u) |> RaiseWin32Err
+    let hookId = SetLowLevelMouseHook proc (GetModuleHandle (null)) 0u |> RaiseWin32Err
     member this.HookId = hookId
     member this.Handler = proc // need to stop the proc from being garbage collected (the let binding is being put into the constructor)
     interface System.IDisposable with

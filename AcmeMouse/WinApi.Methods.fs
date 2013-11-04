@@ -16,8 +16,6 @@ let RaiseWin32Err a =
 type LowLevelMouseProc =
     delegate of int * WM * byref<MSLLHOOKSTRUCT> -> LRESULT
 
-type HOOKPROC = LowLevelMouseProc
-
 [<DllImport("kernel32.dll", SetLastError = true)>]
 extern uint32 GetCurrentThreadId()
 
@@ -27,8 +25,14 @@ extern nativeint GetModuleHandle(string lpModuleName)
 [<DllImport("user32.dll", SetLastError = true)>]
 extern bool UnhookWindowsHookEx(nativeint hhk)
 
-[<DllImport("user32.dll", SetLastError = true)>]
-extern nativeint SetWindowsHookEx(int idhook, HOOKPROC proc,  HINSTANCE hMod, DWORD threadId)
+// Sadly I can't marshal discriminated unions, otherwise I could have a HOOKPROC that could cover all the hook types
+// As it is, I'm making distinct methods to marshal each type separately
+[<DllImport("user32.dll", SetLastError = true, EntryPoint="SetWindowsHookEx")>]
+extern nativeint SetWindowsHookEx_LowLevelMouseProc(int idhook, LowLevelMouseProc proc,  HINSTANCE hMod, DWORD threadId)
+
+// helper method to set a low level mouse hook
+let SetLowLevelMouseHook proc hMod threadId =
+    SetWindowsHookEx_LowLevelMouseProc(14, proc, hMod, threadId)
 
 [<DllImport("user32.dll", SetLastError = true)>]
 extern bool GetMessage(MSG lpMsg, nativeint hWnd, uint32 wMsgFilterMin, uint32 wMsgFilterMax);
