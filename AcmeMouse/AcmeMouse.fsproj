@@ -70,6 +70,7 @@
     <None Include="THANKS" />
     <None Include="LICENSE" />
     <EmbeddedResource Include="Resources.resx" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
