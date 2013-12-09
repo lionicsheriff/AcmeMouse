@@ -27,3 +27,8 @@ How
 AcmeMouse installs a low level mouse hook that watches your mouse buttons. When
 you press the mouse buttons in the right sequence, it sends a key combo that
 corresponds to the action you have triggered. Copy will send ctrl+c, cut ctrl+x.
+
+License
+-------
+
+MIT
